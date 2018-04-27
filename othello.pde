@@ -7,25 +7,30 @@ void settings() {
 void setup() {
   // set board layout
   field = new Field();
-  save("capture/othello-0.png");
 }
-
-boolean start = false;
 
 void draw() {
-  if (!start) {
-    frameCount = 0;
+  if (field.isGameEnd()) {
     return;
   }
-  //if (frameCount >= 30) exit();
+
+  field.draw();
+
+  if (!field.checkPutable()) {
+    if (!field.isGameEnd()) {
+      println("Oops, player" + (field.turn) + " had no choice but to pass!");
+      println("Player" + (field.turn) + " was passed automatically...");
+    }
+    field.changeTurn();
+    return;
+  }
+
+  // AI player who select position randomly
   while (!field.tryPut(new Pos(int(random(0, 8)), int(random(0, 8))))) {
   }
-  save("capture/othello" + frameCount + ".png");
   field.changeTurn();
-}
-
-void mouseReleased() {
-  start = true;
+  
+  save("othello-" + frameCount + ".jpg");
 }
 
 //void mousePressed() {
@@ -34,8 +39,21 @@ void mouseReleased() {
 //    mouseY / SIZE
 //    );
 
+//  if (field.isGameEnd()) {
+//    println("Finished! " + field);
+//    noLoop();
+//  }
+
+//  if (!field.checkPutable()) {
+//    println("Oops, player" + (field.turn) + " had no choice but to pass!");
+//    println("Player" + (field.turn) + "was passed automatically...");
+//    field.changeTurn();
+//    return;
+//  }
+
+
 //  if (!field.tryPut(pos)) {
-//    println("You cannot put at " + pos);
+//    println("Player" + (field.turn) + " cannot put at " + pos);
 //    return;
 //  }
 
