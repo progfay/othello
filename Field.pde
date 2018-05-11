@@ -2,13 +2,23 @@ class Field {
   final int NONE  = 0;
   final int BLACK = 1;
   final int WHITE = 2;
+  final int [][] EVALUATE_VALUE = {
+    {+8, -2, +3, +3, +3, +3, -2, +8}, 
+    {-2, +1, +2, +2, +2, +2, +1, -2}, 
+    {+3, +2, +1, +1, +1, +1, +2, -3}, 
+    {+3, +2, +1, +1, +1, +1, +2, -3}, 
+    {+3, +2, +1, +1, +1, +1, +2, -3}, 
+    {+3, +2, +1, +1, +1, +1, +2, -3}, 
+    {-2, +1, +2, +2, +2, +2, +1, -2}, 
+    {+8, -2, +3, +3, +3, +3, -2, +8}
+  };
 
   private int [][] cell;
   private int      turn;
-  
+
   private boolean isGameEndFlag  = false;
   private boolean isPlayerPassed = false;
-  
+
   public Field() {
     // init unit array
     cell = new int[8][8];
@@ -29,7 +39,7 @@ class Field {
     // set first play for black
     turn = BLACK;
   }
-  
+
   public void draw() {
     background(#208208);
     stroke(#A0A0A0);
@@ -37,7 +47,7 @@ class Field {
       line(i*SIZE, 0, i*SIZE, height);
       line(0, i*SIZE, width, i*SIZE);
     }
-    
+
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         int unitColor = this.get(i, j);
@@ -48,13 +58,11 @@ class Field {
       }
     }
   }
-  
-  
-  
+
   public boolean checkPutable() {
-    for(int i = 0; i < 8; i++) {
-      for(int j = 0; j < 8; j++) {
-        if(ableToPut(new Pos(i, j))) return true;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (ableToPut(i, j)) return true;
       }
     }
     if (isPlayerPassed) {
@@ -65,7 +73,8 @@ class Field {
     return false;
   }
 
-  private boolean ableToPut(Pos pos) {
+  private boolean ableToPut(int x, int y) {
+    Pos pos = new Pos(x, y);
     if (this.get(pos) != NONE) return false;
     int opponent = (this.turn == BLACK ? WHITE : BLACK);
     for (int i = 0; i < 8; i++) {
@@ -119,6 +128,30 @@ class Field {
     }
   }
 
+  public Pos calcOptimalPos() {
+    int optPosX = 0, optPosY = 0;
+    int maxValue = -100;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (!this.ableToPut(i, j)) continue;
+        int value = this.evaluatePos(i, j);
+        if (maxValue > value) continue;
+        if (maxValue == value && random(1) < 0.5) continue;
+        optPosX = i;
+        optPosY = j;
+        maxValue = value;
+      }
+    }
+    print((this.turn == BLACK ? "WHITE" : "BLACK") + ": ");
+    print(new Pos(optPosX, optPosY).toString());
+    println(" => " + (maxValue > 0 ? "+" : "") + maxValue);
+    return new Pos(optPosX, optPosY);
+  }
+  
+  private int evaluatePos(int x, int y) {
+    return EVALUATE_VALUE[x][y];
+  }
+
   private void put(int x, int y, int unitColor) {
     this.cell[x][y] = unitColor;
   }
@@ -138,11 +171,11 @@ class Field {
   int get(Pos pos) {
     return this.get(pos.x, pos.y);
   }
-  
+
   public int getTurn() {
     return this.turn;
   }
-  
+
   public boolean isGameEnd() {
     return this.isGameEndFlag;
   }
