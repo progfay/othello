@@ -147,7 +147,7 @@ class Field {
     println(" => " + (maxValue > 0 ? "+" : "") + maxValue);
     return new Pos(optPosX, optPosY);
   }
-  
+
   private int evaluatePos(int x, int y) {
     return EVALUATE_VALUE[x][y];
   }

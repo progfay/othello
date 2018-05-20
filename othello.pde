@@ -28,6 +28,6 @@ void draw() {
   // AI player who select position randomly
   field.tryPut(field.calcOptimalPos());
   field.changeTurn();
-  
+
   save("othello-" + frameCount + ".jpg");
 }
