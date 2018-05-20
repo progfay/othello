@@ -1,4 +1,5 @@
 Field field;
+Player[] players;
 
 void settings() {
   size(8*SIZE, 8*SIZE);
@@ -7,27 +8,20 @@ void settings() {
 void setup() {
   // set board layout
   field = new Field();
+  players = new Player[2];
+  players[0] = new Player(field.BLACK);
+  players[1] = new Player(field.WHITE);
 }
 
 void draw() {
   if (field.isGameEnd()) {
+    println("\nFinished!\n" + field);
     return;
   }
 
   field.draw();
+  
+  players[field.turn].play(field);
 
-  if (!field.checkPutable()) {
-    if (!field.isGameEnd()) {
-      println("Oops, player" + (field.turn) + " had no choice but to pass!");
-      println("Player" + (field.turn) + " was passed automatically...");
-    }
-    field.changeTurn();
-    return;
-  }
-
-  // AI player who select position randomly
-  field.tryPut(field.calcOptimalPos());
-  field.changeTurn();
-
-  save("othello-" + frameCount + ".jpg");
+  save("capture/othello-" + frameCount + ".jpg");
 }

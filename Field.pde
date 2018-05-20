@@ -1,7 +1,7 @@
 class Field {
-  final int NONE  = 0;
-  final int BLACK = 1;
-  final int WHITE = 2;
+  final int NONE  = -1;
+  final int BLACK = 0;
+  final int WHITE = 1;
   final int [][] EVALUATE_VALUE = {
     {+8, -2, +3, +3, +3, +3, -2, +8}, 
     {-2, +1, +2, +2, +2, +2, +1, -2}, 
@@ -65,10 +65,7 @@ class Field {
         if (ableToPut(i, j)) return true;
       }
     }
-    if (isPlayerPassed) {
-      isGameEndFlag = true;
-      println("\nFinished!\n" + field);
-    }
+    if (isPlayerPassed) isGameEndFlag = true;
     isPlayerPassed = true;
     return false;
   }
