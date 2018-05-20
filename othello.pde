@@ -16,11 +16,12 @@ void setup() {
 void draw() {
   if (field.isGameEnd()) {
     println("\nFinished!\n" + field);
+    noLoop();
     return;
   }
 
   field.draw();
-  
+
   players[field.turn].play(field);
 
   save("capture/othello-" + frameCount + ".jpg");
