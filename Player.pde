@@ -1,15 +1,17 @@
 class Player {
-  int turn;
+  int     turn;
+  float[] weight;
 
-  Player(int _t) {
-    this.turn = _t;
+  Player(int _t, float[] _w) {
+    this.turn   = _t;
+    this.weight = _w;
   }
 
   void play(Field field) {
     if (!this.checkPutable(field)) {
       if (!field.isGameEnd()) {
-        println("Oops, player" + (this.turn) + " had no choice but to pass!");
-        println("Player" + (this.turn) + " was passed automatically...");
+        // println("Oops, player" + (this.turn) + " had no choice but to pass!");
+        // println("Player" + (this.turn) + " was passed automatically...");
       }
       field.changeTurn();
       return;
@@ -34,9 +36,9 @@ class Player {
         maxValue = value;
       }
     }
-    print((this.turn == field.BLACK ? "WHITE" : "BLACK") + ": ");
-    print(new Pos(optPosX, optPosY).toString());
-    println(" => " + (maxValue > 0 ? "+" : "") + maxValue);
+    // print((this.turn == field.BLACK ? "WHITE" : "BLACK") + ": ");
+    // print(new Pos(optPosX, optPosY).toString());
+    // println(" => " + (maxValue > 0 ? "+" : "") + maxValue);
     return new Pos(optPosX, optPosY);
   }
 

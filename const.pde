@@ -1,5 +1,7 @@
-final int SIZE       = 100;
-final int STONE_SIZE = (int)(SIZE*0.7);
+final int SIZE            = 100;
+final int STONE_SIZE      = (int)(SIZE*0.7);
+final int GAME_TRIAL_NUM  = 100;
+final int LEARN_TRIAL_NUM = 100;
 
 final Length [] UNIT_DIRECTION = {
   new Length(-1, -1), 

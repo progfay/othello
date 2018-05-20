@@ -98,11 +98,11 @@ class Field {
   int get(Pos pos) {
     return this.get(pos.x, pos.y);
   }
-  
+
   boolean onBoard(int x, int y) {
     return x >= 0 && x < 8 && y >= 0 && y < 8;
   }
-  
+
   boolean onBoard(Pos pos) {
     return this.onBoard(pos.x, pos.y);
   }
@@ -113,6 +113,23 @@ class Field {
 
   public boolean isGameEnd() {
     return this.isGameEndFlag;
+  }
+
+  public int winner() {
+    int countBlack = 0;
+    int countWhite = 0;
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        if (this.cell[i][j] == BLACK) {
+          countBlack++;
+        } else if (this.cell[i][j] == WHITE) {
+          countWhite++;
+        }
+      }
+    }
+    if (countBlack > countWhite) return this.BLACK;
+    else if (countBlack < countWhite) return this.WHITE;
+    else return this.NONE;
   }
 
   @Override
