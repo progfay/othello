@@ -11,7 +11,7 @@ void setup() {
     String[] param = loadStrings("weight.txt")[0].split(",");
     players = new Player[2];
     float[] weight0 = { float(param[0]), float(param[1]) };
-    float[] weight1 = { random(1), random(1) };
+    float[] weight1 = { float(param[0]), float(param[1]) + (SWING_WIDTH-random(SWING_WIDTH*2)) };
 
     for (int j = 0; j < GAME_TRIAL_NUM; j++) {
       field = new Field();
@@ -24,14 +24,14 @@ void setup() {
     }
     if (randomWinNum > ceil(GAME_TRIAL_NUM*0.5)) {
       String[] lines = {
-        weight1[0] + "," + weight1[1]
+        1.0 + "," + (weight1[1] / weight1[0])
       };
       saveStrings("weight.txt", lines);
       println(lines[0]);
     }
-    println("Finish!");
-    exit();
   }
+  println("Finish!");
+  exit();
 }
 
 //void draw() {
